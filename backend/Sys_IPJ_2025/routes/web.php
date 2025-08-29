@@ -7,6 +7,8 @@ use App\Http\Controllers\ProgramaController;
 use App\Http\Controllers\PeriodoManejoController;
 use App\Http\Controllers\GrupoManejoController;
 use App\Http\Controllers\InscripcionManejoController;
+use App\Http\Controllers\TemaNomadaController;
+use App\Http\Controllers\ConferenciaNomadaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,3 +42,6 @@ Route::post('inscripciones', [InscripcionManejoController::class, 'store'])
     ->name('inscripciones.store');
 Route::delete('inscripciones/{inscripcion}', [InscripcionManejoController::class, 'destroy'])
     ->name('inscripciones.destroy');
+
+Route::resource('temas-nomada', TemaNomadaController::class);
+Route::resource('conferencias-nomada', ConferenciaNomadaController::class);
