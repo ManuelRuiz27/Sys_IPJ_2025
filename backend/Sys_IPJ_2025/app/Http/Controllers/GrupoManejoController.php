@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GrupoManejo;
 use App\Models\PeriodoManejo;
+use App\Models\Beneficiario;
 use App\Http\Requests\GrupoManejoRequest;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,30 @@ class GrupoManejoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $grupos = GrupoManejo::with('periodo')->paginate(10);
-        return view('grupos.index', compact('grupos'));
+        $periodoId = $request->input('periodo_id');
+        $horario = $request->input('horario');
+
+        $query = GrupoManejo::with('periodo');
+
+        if ($periodoId) {
+            $query->where('periodo_id', $periodoId);
+        }
+
+        if ($horario) {
+            $query->where('horario', 'like', "%$horario%");
+        }
+
+        $grupos = $query->paginate(10)->withQueryString();
+        $periodos = PeriodoManejo::orderByDesc('anio')->orderByDesc('mes')->get();
+
+        return view('grupos.index', [
+            'grupos' => $grupos,
+            'periodos' => $periodos,
+            'periodo_id' => $periodoId,
+            'horario' => $horario,
+        ]);
     }
 
     /**
@@ -46,7 +67,12 @@ class GrupoManejoController extends Controller
     public function show(GrupoManejo $grupo)
     {
         $grupo->load('periodo', 'inscripciones.beneficiario');
-        return view('grupos.show', compact('grupo'));
+        $beneficiarios = Beneficiario::orderBy('nombre')->get();
+
+        return view('grupos.show', [
+            'grupo' => $grupo,
+            'beneficiarios' => $beneficiarios,
+        ]);
     }
 
     /**
