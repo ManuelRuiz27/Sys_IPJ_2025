@@ -13,16 +13,20 @@ class BeneficiarioController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->query('search');
+        $curp = $request->query('curp');
+        $folio = $request->query('folio');
 
         $beneficiarios = Beneficiario::query()
-            ->when($search, function ($query, $search) {
-                $query->where('curp', 'like', "%{$search}%")
-                      ->orWhere('folio_tarjeta', 'like', "%{$search}%");
-            })
-            ->get();
+            ->when($curp, fn($q) => $q->where('curp', 'like', "%{$curp}%"))
+            ->when($folio, fn($q) => $q->where('folio_tarjeta', 'like', "%{$folio}%"))
+            ->paginate(10)
+            ->appends($request->only('curp', 'folio'));
 
-        return response()->json($beneficiarios);
+        return view('beneficiarios.index', [
+            'beneficiarios' => $beneficiarios,
+            'curp' => $curp,
+            'folio' => $folio,
+        ]);
     }
 
     /**
@@ -30,7 +34,7 @@ class BeneficiarioController extends Controller
      */
     public function create()
     {
-        //
+        return view('beneficiarios.create');
     }
 
     /**
@@ -40,7 +44,9 @@ class BeneficiarioController extends Controller
     {
         $beneficiario = Beneficiario::create($request->validated());
 
-        return response()->json($beneficiario, 201);
+        return redirect()
+            ->route('beneficiarios.show', $beneficiario)
+            ->with('status', 'Beneficiario creado');
     }
 
     /**
@@ -48,7 +54,9 @@ class BeneficiarioController extends Controller
      */
     public function show(Beneficiario $beneficiario)
     {
-        return response()->json($beneficiario);
+        $beneficiario->load('domicilio', 'programas');
+
+        return view('beneficiarios.show', compact('beneficiario'));
     }
 
     /**
@@ -56,7 +64,7 @@ class BeneficiarioController extends Controller
      */
     public function edit(Beneficiario $beneficiario)
     {
-        //
+        return view('beneficiarios.edit', compact('beneficiario'));
     }
 
     /**
@@ -66,6 +74,8 @@ class BeneficiarioController extends Controller
     {
         $beneficiario->update($request->validated());
 
-        return response()->json($beneficiario);
+        return redirect()
+            ->route('beneficiarios.show', $beneficiario)
+            ->with('status', 'Beneficiario actualizado');
     }
 }
