@@ -10,6 +10,15 @@ class Beneficiario extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [
+        'nombre',
+        'curp',
+        'folio_tarjeta',
+    ];
+
+    /**
      * Get the domicilio associated with the beneficiario.
      */
     public function domicilio()
