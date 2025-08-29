@@ -11,10 +11,32 @@ class PeriodoManejoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $periodos = PeriodoManejo::orderByDesc('anio')->orderByDesc('mes')->paginate(10);
-        return view('periodos.index', compact('periodos'));
+        $anio = $request->input('anio');
+        $mes = $request->input('mes');
+
+        $query = PeriodoManejo::query();
+
+        if ($anio) {
+            $query->where('anio', $anio);
+        }
+
+        if ($mes) {
+            $query->where('mes', $mes);
+        }
+
+        $periodos = $query
+            ->orderByDesc('anio')
+            ->orderByDesc('mes')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('periodos.index', [
+            'periodos' => $periodos,
+            'anio' => $anio,
+            'mes' => $mes,
+        ]);
     }
 
     /**
@@ -40,10 +62,20 @@ class PeriodoManejoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PeriodoManejo $periodo)
+    public function show(PeriodoManejo $periodo, Request $request)
     {
-        $periodo->load('grupos');
-        return view('periodos.show', compact('periodo'));
+        $horario = $request->input('horario');
+
+        $periodo->load(['grupos' => function ($query) use ($horario) {
+            if ($horario) {
+                $query->where('horario', 'like', "%$horario%");
+            }
+        }]);
+
+        return view('periodos.show', [
+            'periodo' => $periodo,
+            'horario' => $horario,
+        ]);
     }
 
     /**
