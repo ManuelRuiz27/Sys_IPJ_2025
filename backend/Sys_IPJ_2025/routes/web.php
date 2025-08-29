@@ -11,6 +11,11 @@ Route::get('/', function () {
 
 Route::resource('beneficiarios', BeneficiarioController::class)->except(['destroy']);
 
+Route::get('beneficiarios/{beneficiario}/programas', [BeneficiarioController::class, 'editProgramas'])
+    ->name('beneficiarios.programas.edit');
+Route::put('beneficiarios/{beneficiario}/programas', [BeneficiarioController::class, 'updateProgramas'])
+    ->name('beneficiarios.programas.update');
+
 Route::resource('beneficiarios.domicilio', DomicilioController::class)
     ->shallow()
     ->only(['create', 'store', 'edit', 'update']);

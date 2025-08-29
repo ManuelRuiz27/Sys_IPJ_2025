@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Beneficiario;
+use App\Models\Programa;
 use Illuminate\Http\Request;
 use App\Http\Requests\BeneficiarioRequest;
 
@@ -77,5 +78,23 @@ class BeneficiarioController extends Controller
         return redirect()
             ->route('beneficiarios.show', $beneficiario)
             ->with('status', 'Beneficiario actualizado');
+    }
+
+    public function editProgramas(Beneficiario $beneficiario)
+    {
+        $beneficiario->load('programas');
+        $programas = Programa::all();
+
+        return view('beneficiarios.programas', compact('beneficiario', 'programas'));
+    }
+
+    public function updateProgramas(Request $request, Beneficiario $beneficiario)
+    {
+        $ids = $request->input('programas', []);
+        $beneficiario->programas()->sync($ids);
+
+        return redirect()
+            ->route('beneficiarios.show', $beneficiario)
+            ->with('status', 'Programas actualizados');
     }
 }
