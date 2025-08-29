@@ -10,6 +10,14 @@ class Programa extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+    ];
+
+    /**
      * The beneficiarios that belong to the programa.
      */
     public function beneficiarios()
