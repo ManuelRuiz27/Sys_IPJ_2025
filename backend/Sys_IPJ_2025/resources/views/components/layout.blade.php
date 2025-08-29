@@ -10,6 +10,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
   <div class="container">
     <a class="navbar-brand" href="{{ route('beneficiarios.index') }}">Beneficiarios</a>
+    <a class="nav-link" href="{{ route('programas.index') }}">Programas</a>
   </div>
 </nav>
 <div class="container">

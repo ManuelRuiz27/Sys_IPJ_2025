@@ -22,6 +22,7 @@
         @else
             <p class="text-muted">Sin programas vinculados</p>
         @endif
+        <a href="{{ route('beneficiarios.programas.edit', $beneficiario) }}" class="btn btn-sm btn-primary mt-2">Asignar programas</a>
     </div>
     <a href="{{ route('beneficiarios.index') }}" class="btn btn-secondary">Regresar</a>
     <a href="{{ route('beneficiarios.edit', $beneficiario) }}" class="btn btn-primary">Editar</a>

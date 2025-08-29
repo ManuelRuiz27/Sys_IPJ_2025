@@ -5,15 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Programa;
 use App\Models\Beneficiario;
 use App\Http\Requests\ProgramaRequest;
+use Illuminate\Http\Request;
 
 class ProgramaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Programa::all());
+        if ($request->wantsJson()) {
+            return response()->json(Programa::all());
+        }
+
+        $programas = Programa::paginate(10);
+
+        return view('programas.index', compact('programas'));
     }
 
     /**
