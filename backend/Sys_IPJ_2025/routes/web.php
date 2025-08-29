@@ -9,6 +9,7 @@ use App\Http\Controllers\GrupoManejoController;
 use App\Http\Controllers\InscripcionManejoController;
 use App\Http\Controllers\TemaNomadaController;
 use App\Http\Controllers\ConferenciaNomadaController;
+use App\Http\Controllers\ConsultaPsicologicaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,6 +43,9 @@ Route::post('inscripciones', [InscripcionManejoController::class, 'store'])
     ->name('inscripciones.store');
 Route::delete('inscripciones/{inscripcion}', [InscripcionManejoController::class, 'destroy'])
     ->name('inscripciones.destroy');
+
+Route::resource('consultas-psicologicas', ConsultaPsicologicaController::class)
+    ->only(['index', 'create', 'store']);
 
 Route::resource('temas-nomada', TemaNomadaController::class);
 Route::resource('conferencias-nomada', ConferenciaNomadaController::class);
