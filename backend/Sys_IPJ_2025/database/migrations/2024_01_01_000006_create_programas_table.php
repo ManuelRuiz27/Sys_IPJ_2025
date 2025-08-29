@@ -14,7 +14,8 @@ return new class extends Migration
     {
         Schema::create('programas', function (Blueprint $table) {
             $table->char('id', 36)->primary()->default(DB::raw('uuid()'));
-            $table->string('nombre');
+            $table->string('nombre')->unique();
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }
