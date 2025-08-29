@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BeneficiarioController;
 use App\Http\Controllers\DomicilioController;
 use App\Http\Controllers\ProgramaController;
+use App\Http\Controllers\PeriodoManejoController;
+use App\Http\Controllers\GrupoManejoController;
+use App\Http\Controllers\InscripcionManejoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,3 +27,16 @@ Route::resource('programas', ProgramaController::class);
 
 Route::post('programas/{programa}/beneficiarios/{beneficiario}', [ProgramaController::class, 'toggleBeneficiario'])
     ->name('programas.toggleBeneficiario');
+
+Route::resource('periodos', PeriodoManejoController::class);
+Route::get('periodos/{periodo}/reporte-sexo', [PeriodoManejoController::class, 'reporteSexo'])
+    ->name('periodos.reporte.sexo');
+
+Route::resource('grupos', GrupoManejoController::class);
+Route::get('grupos/{grupo}/reporte-sexo', [GrupoManejoController::class, 'reporteSexo'])
+    ->name('grupos.reporte.sexo');
+
+Route::post('inscripciones', [InscripcionManejoController::class, 'store'])
+    ->name('inscripciones.store');
+Route::delete('inscripciones/{inscripcion}', [InscripcionManejoController::class, 'destroy'])
+    ->name('inscripciones.destroy');
