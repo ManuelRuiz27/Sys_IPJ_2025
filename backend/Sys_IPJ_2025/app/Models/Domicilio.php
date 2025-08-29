@@ -10,6 +10,16 @@ class Domicilio extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [
+        'calle',
+        'numero',
+        'colonia',
+        'cp',
+    ];
+
+    /**
      * Get the beneficiario that owns the domicilio.
      */
     public function beneficiario()
