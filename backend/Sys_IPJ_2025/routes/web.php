@@ -12,6 +12,7 @@ use App\Http\Controllers\ConferenciaNomadaController;
 use App\Http\Controllers\ConsultaPsicologicaController;
 use App\Http\Controllers\PeriodoEscolarController;
 use App\Http\Controllers\BecaController;
+use App\Http\Controllers\UsuarioController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,3 +56,7 @@ Route::resource('consultas-psicologicas', ConsultaPsicologicaController::class)
 
 Route::resource('temas-nomada', TemaNomadaController::class);
 Route::resource('conferencias-nomada', ConferenciaNomadaController::class);
+
+Route::get('usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+Route::post('usuarios/{user}/rol', [UsuarioController::class, 'assignRole'])->name('usuarios.assignRole');
+Route::post('usuarios/{user}/restablecer-contrasena', [UsuarioController::class, 'resetPassword'])->name('usuarios.resetPassword');
