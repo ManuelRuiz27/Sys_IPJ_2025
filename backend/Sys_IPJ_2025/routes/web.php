@@ -13,6 +13,7 @@ use App\Http\Controllers\ConsultaPsicologicaController;
 use App\Http\Controllers\PeriodoEscolarController;
 use App\Http\Controllers\BecaController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
@@ -57,6 +58,7 @@ Route::resource('consultas-psicologicas', ConsultaPsicologicaController::class)
 
 Route::resource('temas-nomada', TemaNomadaController::class);
 Route::resource('conferencias-nomada', ConferenciaNomadaController::class);
+Route::get('reports/basic', [ReportController::class, 'basic'])->name('reports.basic');
 
 Route::middleware('auth')->group(function () {
     Route::get('usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
