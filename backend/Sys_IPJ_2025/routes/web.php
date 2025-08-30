@@ -13,6 +13,7 @@ use App\Http\Controllers\ConsultaPsicologicaController;
 use App\Http\Controllers\PeriodoEscolarController;
 use App\Http\Controllers\BecaController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -57,6 +58,14 @@ Route::resource('consultas-psicologicas', ConsultaPsicologicaController::class)
 Route::resource('temas-nomada', TemaNomadaController::class);
 Route::resource('conferencias-nomada', ConferenciaNomadaController::class);
 
-Route::get('usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
-Route::post('usuarios/{user}/rol', [UsuarioController::class, 'assignRole'])->name('usuarios.assignRole');
-Route::post('usuarios/{user}/restablecer-contrasena', [UsuarioController::class, 'resetPassword'])->name('usuarios.resetPassword');
+Route::middleware('auth')->group(function () {
+    Route::get('usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+    Route::post('usuarios/{user}/rol', [UsuarioController::class, 'assignRole'])->name('usuarios.assignRole');
+    Route::post('usuarios/{user}/restablecer-contrasena', [UsuarioController::class, 'resetPassword'])->name('usuarios.resetPassword');
+
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::view('/admin', 'dashboards.admin')->name('dashboards.admin');
+    Route::view('/bienestar', 'dashboards.bienestar')->name('dashboards.bienestar');
+    Route::view('/psicologia', 'dashboards.psicologia')->name('dashboards.psicologia');
+    Route::view('/nomadas', 'dashboards.nomadas')->name('dashboards.nomadas');
+});

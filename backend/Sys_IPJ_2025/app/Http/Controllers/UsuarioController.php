@@ -14,7 +14,13 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        return response()->json(User::all());
+        $usuarios = User::all();
+
+        if (request()->wantsJson()) {
+            return response()->json($usuarios);
+        }
+
+        return view('usuarios.index', compact('usuarios'));
     }
 
     /**
@@ -29,7 +35,11 @@ class UsuarioController extends Controller
         $user->role = $data['role'];
         $user->save();
 
-        return response()->json(['message' => 'Rol asignado correctamente']);
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Rol asignado correctamente']);
+        }
+
+        return redirect()->route('usuarios.index')->with('status', 'Rol asignado correctamente');
     }
 
     /**
@@ -41,6 +51,10 @@ class UsuarioController extends Controller
         $user->password = Hash::make($newPassword);
         $user->save();
 
-        return response()->json(['new_password' => $newPassword]);
+        if (request()->expectsJson()) {
+            return response()->json(['new_password' => $newPassword]);
+        }
+
+        return redirect()->route('usuarios.index')->with('status', 'Contraseña restablecida: ' . $newPassword);
     }
 }

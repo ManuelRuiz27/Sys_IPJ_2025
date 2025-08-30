@@ -13,6 +13,10 @@
     <a class="nav-link" href="{{ route('programas.index') }}">Programas</a>
     <a class="nav-link" href="{{ route('periodos-escolares.index') }}">Periodos Escolares</a>
     <a class="nav-link" href="{{ route('becas.index') }}">Becas</a>
+    @auth
+    <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+    <a class="nav-link" href="{{ route('usuarios.index') }}">Usuarios</a>
+    @endauth
   </div>
 </nav>
 <div class="container">
