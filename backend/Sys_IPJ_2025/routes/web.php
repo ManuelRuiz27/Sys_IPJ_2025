@@ -10,6 +10,8 @@ use App\Http\Controllers\InscripcionManejoController;
 use App\Http\Controllers\TemaNomadaController;
 use App\Http\Controllers\ConferenciaNomadaController;
 use App\Http\Controllers\ConsultaPsicologicaController;
+use App\Http\Controllers\PeriodoEscolarController;
+use App\Http\Controllers\BecaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,6 +36,10 @@ Route::post('programas/{programa}/beneficiarios/{beneficiario}', [ProgramaContro
 Route::resource('periodos', PeriodoManejoController::class);
 Route::get('periodos/{periodo}/reporte-sexo', [PeriodoManejoController::class, 'reporteSexo'])
     ->name('periodos.reporte.sexo');
+
+Route::resource('periodos-escolares', PeriodoEscolarController::class)
+    ->parameters(['periodos-escolares' => 'periodo']);
+Route::resource('becas', BecaController::class);
 
 Route::resource('grupos', GrupoManejoController::class);
 Route::get('grupos/{grupo}/reporte-sexo', [GrupoManejoController::class, 'reporteSexo'])

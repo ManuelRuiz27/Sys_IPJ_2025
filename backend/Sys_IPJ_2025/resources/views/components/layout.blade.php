@@ -11,6 +11,8 @@
   <div class="container">
     <a class="navbar-brand" href="{{ route('beneficiarios.index') }}">Beneficiarios</a>
     <a class="nav-link" href="{{ route('programas.index') }}">Programas</a>
+    <a class="nav-link" href="{{ route('periodos-escolares.index') }}">Periodos Escolares</a>
+    <a class="nav-link" href="{{ route('becas.index') }}">Becas</a>
   </div>
 </nav>
 <div class="container">

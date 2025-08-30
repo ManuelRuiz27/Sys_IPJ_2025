@@ -34,4 +34,12 @@ class Beneficiario extends Model
         return $this->belongsToMany(Programa::class, 'beneficiario_programa')
                     ->using(BeneficiarioPrograma::class);
     }
+
+    /**
+     * Get the becas for the beneficiario.
+     */
+    public function becas()
+    {
+        return $this->hasMany(Beca::class);
+    }
 }
